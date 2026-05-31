@@ -20,28 +20,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Set up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use your preferred Node version
-          cache: 'npm'
+          node-version: '20'
+          # Removed cache: 'npm' so it doesn't look for a lockfile
 
-      # 3. Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4. Render the video using the inputs from workflow_dispatch
       - name: Render Video
         run: |
           npx remotion render HelloWorld out/video.mp4 \
           --props='{"titleText": "${{ inputs.titleText }}", "titleColor": "${{ inputs.titleColor }}"}'
 
-      # 5. Upload the generated video so you can download it from GitHub
       - name: Upload Video Artifact
         uses: actions/upload-artifact@v4
         with:
